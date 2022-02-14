@@ -18,8 +18,9 @@ def home(request):
     if request.method=='POST':
         playername = request.POST.get('name')
         if User.objects.filter(username__iexact=playername):
-            messages.warning(request, 'This name is already exists, please try another one.')
-            return HttpResponseRedirect(request.path_info)
+            messages.warning(request, 'Welcome back again')
+            return redirect('start_game')
+
         create_user = User.objects.create(first_name=playername, username=playername)
         create_player = Player.objects.create(name=playername, user=create_user)
         return redirect('start_game')
@@ -33,13 +34,10 @@ def game(request):
     '''
     gamelist = ['rock', 'paper', 'scissors']
     bot_action = random.choice(gamelist) # instead of bot there could be a person
-    user = Player.objects.all().last()
+    user = Player.objects.filter(username__iexact=request.username)
 
     if request.method == 'POST':
-
         #you could have a while loop here for the both players to wait and respond
-
-
         user_answer = request.POST.get('name')
 
         if user_answer == bot_action:
