@@ -32,10 +32,14 @@ def game(request):
     Rock, paper and scissor logic
     '''
     gamelist = ['rock', 'paper', 'scissors']
-    bot_action = random.choice(gamelist)
+    bot_action = random.choice(gamelist) # instead of bot there could be a person
     user = Player.objects.all().last()
 
     if request.method == 'POST':
+
+        #you could have a while loop here for the both players to wait and respond
+
+
         user_answer = request.POST.get('name')
 
         if user_answer == bot_action:
